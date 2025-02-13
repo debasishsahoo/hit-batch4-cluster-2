@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        input { padding: 10px; margin: 10px; }
+        button { padding: 10px; background: blue; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h1>ML Prediction App</h1>
+    <input type="number" id="inputValue" placeholder="Enter a number">
+    <button onclick="predict()">Predict</button>
+    <h2 id="result"></h2>
+
+    <script>
+        async function predict() {
+            let input = document.getElementById("inputValue").value;
+            let response = await fetch("http://18.207.211.232:5000/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ features: [parseFloat(input)] })
+            });
+            let data = await response.json();
+            document.getElementById("result").innerText = "Prediction: " + data.prediction[0];
+        }
+    </script>
+</body>
+</html>
